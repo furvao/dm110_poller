@@ -1,0 +1,1 @@
+include "dm110-poller-ear", "dm110-poller-war", "dm110-poller-api", "dm110-poller-impl", "dm110-poller-ejb", "dm110-poller-ejb-client"

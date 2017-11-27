@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="2.0">
+	<wb-module deploy-name="dm110-poller-ear">
+		<dependent-module deploy-path="/" handle="module:/resource/dm110-poller-war/dm110-poller-war">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/" handle="module:/resource/dm110-poller-ejb/dm110-poller-ejb">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/lib" handle="module:/resource/dm110-poller-api/dm110-poller-api">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/lib" handle="module:/resource/dm110-poller-ejb-client/dm110-poller-ejb-client">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/lib" handle="module:/resource/dm110-poller-impl/dm110-poller-impl">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+	</wb-module>
+</project-modules>

@@ -1,0 +1,23 @@
+apply plugin: 'ear'
+
+dependencies {
+	deploy project(path: ':dm110-poller-war', configuration: 'archives')
+	deploy project(path: ':dm110-poller-ejb')
+	earlib project(':dm110-poller-api')
+	earlib project(':dm110-poller-impl')
+	earlib project(':dm110-poller-ejb-client')
+}
+
+ear {
+	deploymentDescriptor {
+		def warName = project(':dm110-poller-war').name
+		def warVersion = project(':dm110-poller-war').version
+		def warFileName = warName + '-' + warVersion + '.war'
+		webModule(warFileName, 'discovery')
+		
+		def ejbName = project(':dm110-poller-ejb').name
+		def ejbVersion = project(':dm110-poller-ejb').version
+		def ejbFileName = ejbName + '-' + ejbVersion + '.jar'
+		module(ejbFileName, 'ejb')
+	}
+}
