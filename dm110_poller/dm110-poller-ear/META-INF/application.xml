@@ -3,8 +3,8 @@
   <display-name>dm110-poller-ear</display-name>
   <module>
     <web>
-      <web-uri>dm110-usuario-war.war</web-uri>
-      <context-root>dm110-usuario-war</context-root>
+      <web-uri>dm110-poller-war.war</web-uri>
+      <context-root>dm110-poller-war</context-root>
     </web>
   </module>
 </application>

@@ -17,7 +17,7 @@ public interface PollerService {
 	void startPoller(@PathParam("ip") String ip, @PathParam("mask") String mask);
 	
 	@GET
-	@Path("/start/{ip}")
+	@Path("/status/{ip}")
 	EquipamentTO getEquipament(@PathParam("ip") String ip);
 
 }

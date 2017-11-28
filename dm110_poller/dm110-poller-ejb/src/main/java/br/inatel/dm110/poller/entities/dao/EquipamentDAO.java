@@ -15,7 +15,7 @@ public class EquipamentDAO {
 	private EntityManager entityManager;
 
 	public Equipament salvar(Equipament equipament) throws Exception {
-		if (equipament.getId() == null) {
+		if (equipament.getAddress() == null) {
 			entityManager.persist(equipament);
 		} else {
 			equipament = entityManager.merge(equipament);
@@ -28,18 +28,18 @@ public class EquipamentDAO {
 		entityManager.remove(equipament);
 	}
 
-	public Equipament consultarPorId(Long id) {
-		Equipament equipament = null;
-		equipament = entityManager.find(Equipament.class, id);
-		return equipament;
-	}
+//	public Equipament consultarPorId(Long id) {
+//		Equipament equipament = null;
+//		equipament = entityManager.find(Equipament.class, id);
+//		return equipament;
+//	}
 	
 	public Equipament consultarPorIp(String address) {
 		Equipament equipament = null;
 		equipament = entityManager.find(Equipament.class, address);
 		return equipament;
 	}
-
+	
 	public List<Equipament> consultar() {
 
 		List<Equipament> equipaments = null;

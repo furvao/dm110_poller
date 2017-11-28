@@ -1,5 +1,9 @@
 package br.inatel.dm110.poller.beans.util;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Scanner;
+
 public class IpsUtil {
 
 	public static String[] generateIps(String networkIp, int cidr) {
@@ -27,4 +31,6 @@ public class IpsUtil {
 	private static String toIp(long value) {
 		return String.format("%s.%s.%s.%s", value >> 24, (value >> 16) & 255, (value >> 8) & 255, value & 255);
 	}
+	
+	
 }

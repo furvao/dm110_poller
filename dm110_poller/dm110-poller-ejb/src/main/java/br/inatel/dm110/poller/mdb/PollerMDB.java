@@ -1,8 +1,10 @@
 package br.inatel.dm110.poller.mdb;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.EJB;
@@ -16,6 +18,8 @@ import br.inatel.dm110.poller.api.to.EquipamentListTO;
 import br.inatel.dm110.poller.api.to.EquipamentTO;
 import br.inatel.dm110.poller.entities.Equipament;
 import br.inatel.dm110.poller.entities.dao.EquipamentDAO;
+import br.inatel.dm110.poller.interfaces.PollerLocal;
+import br.inatel.dm110.poller.interfaces.PollerRemote;
 
 @MessageDriven(activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
@@ -27,7 +31,7 @@ import br.inatel.dm110.poller.entities.dao.EquipamentDAO;
 public class PollerMDB implements MessageListener {
 
 	@EJB
-	private EquipamentDAO equipamentDAO;
+	private PollerLocal pollerLocal;
 
 	@Override
 	public void onMessage(Message message) {
@@ -46,21 +50,12 @@ public class PollerMDB implements MessageListener {
 
 						try {
 
-							InetAddress ia = InetAddress.getByName(e.getAddress());
-
-							boolean reachable = ia.isReachable(1000);
+							boolean reachable = execPing(e.getAddress());
 							String status = reachable ? "Ativo" : "Inativo";
 							System.out.println(e.getAddress() + " - " + status);
 							
-							Equipament equipament = new Equipament(e);
-							equipament.setStatus(status);
+							pollerLocal.insert(e.getAddress(), status);
 							
-							equipamentDAO.salvar(equipament);
-
-						} catch (UnknownHostException e1) {
-							e1.printStackTrace();
-						} catch (IOException e1) {
-							e1.printStackTrace();
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
@@ -74,5 +69,39 @@ public class PollerMDB implements MessageListener {
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static boolean execPing(String address) {
+		try {
+			Runtime runtime = Runtime.getRuntime();
+			Process process = runtime.exec("ping -n 1 " + address);
+			InputStream is = process.getInputStream();
+			InputStream es = process.getErrorStream();
+			String input = processStream(is);
+			String error = processStream(es);
+			int code = process.waitFor();
+			if (code != 0) {
+				return false;
+			}
+			if (error.length() > 0) {
+				return false;
+			}
+			if (input.contains("Host de destino inacess")) {
+				return false;
+			}
+			return true;
+		} catch (IOException | InterruptedException e) {
+			return false;
+		}
+	}
+
+	public static String processStream(InputStream is) {
+		StringBuilder input = new StringBuilder();
+		try (Scanner scanner = new Scanner(is)) {
+			while (scanner.hasNextLine()) {
+				input.append(scanner.nextLine()).append("\n");
+			}
+		}
+		return input.toString();
 	}
 }
