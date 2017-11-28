@@ -5,6 +5,6 @@
 realizando a varredura na rede a partir do IP e máscara de subrede.
 
 ## Professor
-* **Prof. Márcio Emílio Cruz Vono de Azevedo **
+***Prof. Márcio Emílio Cruz Vono de Azevedo***
 
 ### Instituto Nacional de Telecomunicações [www.inatel.br](http://www.inatel.br)
